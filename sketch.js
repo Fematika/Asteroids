@@ -1,29 +1,29 @@
-var ship, cooldown;
-var total = 10;
-var score = 0;
-var lives = 3;
-var asteroids = []; 
-var lasers = [];
-var hide = 0;
-var start = 0;
+let ship, cooldown;
+let total = 10;
+let score = 0;
+let lives = 3;
+let asteroids = []; 
+let lasers = [];
+let hide = 0;
+let start = 0;
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	ship = new Ship();
 	
-	for (var i = 0; i < total; i++) {
+	for (let i = 0; i < total; i++) {
 		asteroids.push(new Asteroid());
 	}
 	
 	cooldown = new Bar(width - 100, 10, 1, 90, 20);
 }
 
-var count;
+let count;
 function draw() {
 	background(0, 100);
 	
   	if (lives > 0) {
-  		for (var i = 0; i < asteroids.length; i++) {
+  		for (let i = 0; i < asteroids.length; i++) {
   			if (ship.hits(asteroids[i]) && !ship.invincible) {
   				ship.invincible = true;
   				count = 100;
@@ -40,24 +40,24 @@ function draw() {
   			asteroids[i].edges();
   		}
   		if (asteroids.length == 0) {
-  			total ++;
+  			total += 5;
   			
-  			for (var i = 0; i < total; i++) {
+  			for (let i = 0; i < total; i++) {
 				asteroids.push(new Asteroid());
 			}
   		}
   			
-  		for (var i = lasers.length - 1; i >= 0; i--) {
+  		for (let i = lasers.length - 1; i >= 0; i--) {
   			lasers[i].render();
   			lasers[i].update();
   			
   			if (lasers[i].offscreen()) {
   				lasers.splice(i, 1);
   			} else {
-  				for (var j = asteroids.length - 1; j >= 0; j--) {
+  				for (let j = asteroids.length - 1; j >= 0; j--) {
   					if (lasers[i].hits(asteroids[j])) {
   						if (asteroids[j].r >= 17) {
-  							var newAsteroids = asteroids[j].breakup();
+  							let newAsteroids = asteroids[j].breakup();
   							asteroids.push(newAsteroids[0]);
   							asteroids.push(newAsteroids[1]);
   						}
@@ -114,7 +114,7 @@ function keyReleased() {
 
 function keyPressed() {
 	if (key == ' ') {
-		lasers.push(new Laser(ship.pos, ship.heading));
+		lasers.push(new Laser(ship.pos, ship.angle));
 	} else if (keyCode == RIGHT_ARROW) {
 		ship.setRotation(.1);
 	} else if (keyCode == LEFT_ARROW) {
