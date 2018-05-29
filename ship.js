@@ -1,7 +1,7 @@
 function Ship() {
 	this.pos = createVector(width / 2, height / 2);
 	this.r = 20;
-	this.heading = 0;
+	this.angle = 0;
 	this.rotation = 0;
 	this.vel = createVector(0, 0);
 	this.isBoosting = false;
@@ -21,7 +21,7 @@ function Ship() {
 	}
 	
 	this.boost = function() {
-		var force = p5.Vector.fromAngle(this.heading);
+		let force = p5.Vector.fromAngle(this.angle);
 		force.mult(0.5);
 		this.vel.add(force);
 	}
@@ -45,14 +45,14 @@ function Ship() {
 	}
 	
 	this.turn = function() {
-		this.heading += this.rotation;
+		this.angle += this.rotation;
 	}
 	
 	this.render = function() {
 		push();
 		
 		translate(this.pos.x, this.pos.y);
-		rotate(this.heading + PI / 2);
+		rotate(this.angle + PI / 2);
 		fill(0);
 		stroke(255);
 		triangle(-this.r, this.r, this.r, this.r, 0, -this.r - 2);
@@ -61,7 +61,7 @@ function Ship() {
 	}
 	
 	this.hits = function(asteroid) {
-		var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
+		let d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
 		if (d < this.r + asteroid.r) {
 			return true;
 		} else {
@@ -70,7 +70,7 @@ function Ship() {
 	}
 	
 	this.hyperSpace = function() {
-		this.pos.x += 300 * cos(this.heading);
-		this.pos.y += 300 * sin(this.heading);
+		this.pos.x += 300 * cos(this.angle);
+		this.pos.y += 300 * sin(this.angle);
 	}
 }
